@@ -27,6 +27,7 @@ cp "$ROOT/manifest.json" "$DEST/"
 cp "$ROOT/background.js" "$DEST/"
 cp "$ROOT/content.js"    "$DEST/"
 
+cp "$ROOT/lib/prefs.js"            "$DEST/lib/"
 cp "$ROOT/lib/early.js"            "$DEST/lib/"
 cp "$ROOT/lib/detect.js"           "$DEST/lib/"
 cp "$ROOT/lib/rest.js"             "$DEST/lib/"

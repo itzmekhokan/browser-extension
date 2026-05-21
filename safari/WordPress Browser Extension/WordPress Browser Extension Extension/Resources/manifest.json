@@ -25,13 +25,13 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["lib/early.js"],
+      "js": ["lib/prefs.js", "lib/early.js"],
       "run_at": "document_start",
       "all_frames": false
     },
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["lib/detect.js", "lib/rest.js", "lib/host.js", "lib/block-inspector.js", "content.js"],
+      "js": ["lib/prefs.js", "lib/detect.js", "lib/rest.js", "lib/host.js", "lib/block-inspector.js", "content.js"],
       "run_at": "document_idle",
       "all_frames": false
     }

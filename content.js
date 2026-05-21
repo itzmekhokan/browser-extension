@@ -47,11 +47,10 @@
   async function loadAdminBarPref() {
     try {
       const data = await chrome.storage.local.get('wp_preferences_v1');
-      const prefs = (data.wp_preferences_v1 || {})[location.origin];
-      // Default: hidden.
-      return !prefs || prefs.adminBarHidden !== false;
+      const allPrefs = data.wp_preferences_v1 || {};
+      return globalThis.WPPrefs.isAdminBarHidden(allPrefs);
     } catch (_) {
-      return true;
+      return false;
     }
   }
 
@@ -110,8 +109,8 @@
   async function loadBlockInspectorPref() {
     try {
       const data = await chrome.storage.local.get('wp_preferences_v1');
-      const prefs = (data.wp_preferences_v1 || {})[location.origin];
-      return !!(prefs && prefs.blockInspectorEnabled);
+      const allPrefs = data.wp_preferences_v1 || {};
+      return globalThis.WPPrefs.isBlockInspectorEnabled(allPrefs, location.origin);
     } catch (_) {
       return false;
     }
