@@ -2,9 +2,12 @@
 /**
  * Renders the W-mark SVG variants to the PNG icon set the manifest expects.
  *
- *   icons/src/wmark.svg          → icon-{16,32,48,128}.png       (gray, brand identity / WP-but-logged-out)
- *   icons/src/wmark-active.svg   → icon-{16,32}-active.png       (blue, WP + logged in)
- *   icons/src/wmark-inactive.svg → icon-{16,32}-inactive.png     (gray + slash, not WP)
+ *   icons/src/wmark.svg                  → icon-{16,32,48,128}.png           (gray, WP-but-logged-out)
+ *   icons/src/wmark-active.svg           → icon-{16,32}-active.png           (blue, WP + logged in)
+ *   icons/src/wmark-inactive.svg         → icon-{16,32}-inactive.png         (gray + slash, not WP)
+ *   icons/src/wmark-dark.svg             → icon-{16,32,48,128}-dark.png      (light plate for dark browser chrome)
+ *   icons/src/wmark-active-dark.svg      → icon-{16,32}-active-dark.png
+ *   icons/src/wmark-inactive-dark.svg    → icon-{16,32}-inactive-dark.png
  *
  * Run with: node scripts/render-icons.js
  */
@@ -17,9 +20,12 @@ const SRC = path.join(ROOT, 'icons', 'src');
 const OUT = path.join(ROOT, 'icons');
 
 const jobs = [
-  { svg: 'wmark.svg',          sizes: [16, 32, 48, 128], suffix: '' },
-  { svg: 'wmark-active.svg',   sizes: [16, 32],          suffix: '-active' },
-  { svg: 'wmark-inactive.svg', sizes: [16, 32],          suffix: '-inactive' },
+  { svg: 'wmark.svg',              sizes: [16, 32, 48, 128], suffix: '' },
+  { svg: 'wmark-active.svg',       sizes: [16, 32],          suffix: '-active' },
+  { svg: 'wmark-inactive.svg',     sizes: [16, 32],          suffix: '-inactive' },
+  { svg: 'wmark-dark.svg',         sizes: [16, 32, 48, 128], suffix: '-dark' },
+  { svg: 'wmark-active-dark.svg',  sizes: [16, 32],          suffix: '-active-dark' },
+  { svg: 'wmark-inactive-dark.svg', sizes: [16, 32],         suffix: '-inactive-dark' },
 ];
 
 (async () => {

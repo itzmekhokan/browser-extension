@@ -22,6 +22,10 @@ const path = require('path');
 const detectSrc = fs.readFileSync(path.join(__dirname, '..', 'lib', 'detect.js'), 'utf8');
 const restSrc   = fs.readFileSync(path.join(__dirname, '..', 'lib', 'rest.js'),   'utf8');
 const hostSrc   = fs.readFileSync(path.join(__dirname, '..', 'lib', 'host.js'),   'utf8');
+const toolbarIconSrc = fs.readFileSync(
+  path.join(__dirname, '..', 'lib', 'toolbar-icon.js'),
+  'utf8',
+);
 
 function loadModules(dom) {
   const ctx = dom.window;
@@ -552,6 +556,63 @@ async function main() {
     const det7 = ctx7.WPDetect.detectWordPress(ctx7.document);
     assert(det7.context.siteIconUrl?.startsWith('data:image/png'),
       'data: scheme accepted');
+  }
+
+  // --- 20. Toolbar icon path naming -------------------------------------
+  {
+    console.log('\n[20] Toolbar icon paths — variant and dark-theme suffix');
+    const iconCtx = {};
+    new Function('globalThis', toolbarIconSrc)(iconCtx);
+    const { WPToolbarIcon } = iconCtx;
+
+    assert(
+      WPToolbarIcon.resolveToolbarIconVariant(false, {}) === '-inactive',
+      'non-WP → inactive variant',
+    );
+    assert(
+      WPToolbarIcon.resolveToolbarIconVariant(true, { isLoggedIn: false }) === '',
+      'WP logged out → default gray variant',
+    );
+    assert(
+      WPToolbarIcon.resolveToolbarIconVariant(true, { isLoggedIn: true }) === '-active',
+      'WP logged in → active variant',
+    );
+    assert(
+      WPToolbarIcon.resolveToolbarIconThemeSuffix(false) === '',
+      'light theme → no suffix',
+    );
+    assert(
+      WPToolbarIcon.resolveToolbarIconThemeSuffix(true) === '-dark',
+      'dark theme → -dark suffix',
+    );
+
+    const lightWp = WPToolbarIcon.buildToolbarIconPaths({
+      isWordPress: true,
+      context: { isLoggedIn: false },
+      prefersDark: false,
+    });
+    assert(lightWp[16] === 'icons/icon-16.png', 'light WP icon path');
+    assert(lightWp[32] === 'icons/icon-32.png', 'light WP icon 32px path');
+
+    const darkActive = WPToolbarIcon.buildToolbarIconPaths({
+      isWordPress: true,
+      context: { isLoggedIn: true },
+      prefersDark: true,
+    });
+    assert(
+      darkActive[16] === 'icons/icon-16-active-dark.png',
+      'dark logged-in icon path',
+    );
+
+    const darkInactive = WPToolbarIcon.buildToolbarIconPaths({
+      isWordPress: false,
+      context: null,
+      prefersDark: true,
+    });
+    assert(
+      darkInactive[32] === 'icons/icon-32-inactive-dark.png',
+      'dark non-WP icon path',
+    );
   }
 
   // --- 12. Not a WordPress site -----------------------------------------

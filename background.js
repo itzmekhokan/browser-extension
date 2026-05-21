@@ -9,6 +9,8 @@
  *   - Serve cached detection to the popup
  */
 
+importScripts('lib/toolbar-icon.js');
+
 const CACHE_KEY = 'wp_detection_cache_v1';
 const REFRESH_INTERVAL      = 7 * 24 * 60 * 60 * 1000;  // 1 week
 const PURGE_AFTER           = 28 * 24 * 60 * 60 * 1000;  // 4 weeks
@@ -55,7 +57,34 @@ async function purgeStale() {
 chrome.runtime.onStartup.addListener(onLoad);
 chrome.runtime.onInstalled.addListener(onLoad);
 
+// Gray toolbar glyphs disappear on Chrome's dark toolbar; swap to the
+// light-plate PNG set when the OS/browser prefers dark color scheme.
+let prefersDarkToolbarIcons = false;
+
+function readPrefersDarkColorScheme() {
+  try {
+    return globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
+  } catch (_) {
+    return false;
+  }
+}
+
+function bindColorSchemeListener() {
+  const mq = globalThis.matchMedia?.('(prefers-color-scheme: dark)');
+  if (!mq) {
+    return;
+  }
+  prefersDarkToolbarIcons = mq.matches;
+  mq.addEventListener('change', async () => {
+    prefersDarkToolbarIcons = mq.matches;
+    await repaintAllTabs();
+  });
+}
+
+bindColorSchemeListener();
+
 async function onLoad() {
+  prefersDarkToolbarIcons = readPrefersDarkColorScheme();
   await purgeStale();
   await repaintAllTabs();
 }
@@ -189,16 +218,14 @@ async function updateToolbar(tabId, isWordPress, context) {
   // WP + logged in (blue). The cache doesn't carry isLoggedIn so on a
   // tab-URL-change icon refresh we'll briefly show the gray "WP" variant
   // until the content script reports back with auth context.
-  const variant = !isWordPress ? '-inactive'
-    : context?.isLoggedIn ? '-active'
-    : '';
   try {
     await chrome.action.setIcon({
       tabId,
-      path: {
-        16: `icons/icon-16${variant}.png`,
-        32: `icons/icon-32${variant}.png`,
-      },
+      path: WPToolbarIcon.buildToolbarIconPaths({
+        isWordPress,
+        context,
+        prefersDark: prefersDarkToolbarIcons,
+      }),
     });
   } catch (_) { /* icons not shipped yet */ }
 

@@ -32,6 +32,7 @@ cp "$ROOT/lib/detect.js"           "$DEST/lib/"
 cp "$ROOT/lib/rest.js"             "$DEST/lib/"
 cp "$ROOT/lib/host.js"             "$DEST/lib/"
 cp "$ROOT/lib/block-inspector.js"  "$DEST/lib/"
+cp "$ROOT/lib/toolbar-icon.js"     "$DEST/lib/"
 
 cp "$ROOT/popup/popup.html" "$DEST/popup/"
 
