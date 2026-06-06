@@ -66,11 +66,17 @@
       hideStyle = document.createElement('style');
       hideStyle.id = 'wp-detective-adminbar-hide';
       hideStyle.textContent = `
+        /*
+         * Admin bar hidden by the WordPress Browser Extension.
+         * Toggle "Show Admin Bar" in the extension popup to restore it on
+         * this site, or change the default in the extension options page.
+         */
         #wpadminbar { display: none !important; }
         html { margin-top: 0 !important; --wp-admin--admin-bar--height: 0px !important; }
         html.admin-bar, html.wp-toolbar { margin-top: 0 !important; --wp-admin--admin-bar--height: 0px !important; }
       `;
       document.documentElement.appendChild(hideStyle);
+      console.info('[WordPress Browser Extension] Admin bar hidden on this site. Toggle "Show Admin Bar" in the extension popup or the options page.');
     }
     // Remove `body.admin-bar` so themes that key layout off it (e.g.
     // `body.admin-bar .header { padding-top: 32px }`) collapse cleanly
