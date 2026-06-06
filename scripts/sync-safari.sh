@@ -38,6 +38,11 @@ cp "$ROOT/popup/popup.html" "$DEST/popup/"
 cp "$ROOT/dist/popup.css" "$DEST/dist/"
 cp "$ROOT/dist/popup.js"  "$DEST/dist/"
 
-cp "$ROOT/icons"/*.png "$DEST/icons/"
+# Safari Web Extensions template-render toolbar icons — Safari ignores
+# the icon's own colors and paints the alpha shape with the system tint.
+# The colored icons in icons/*.png are designed for Chrome, where full
+# color is preserved; the silhouette versions in icons/template/*.png
+# are what Safari's tinting expects.
+cp "$ROOT/icons/template"/*.png "$DEST/icons/"
 
 echo "Synced runtime files → $DEST"
