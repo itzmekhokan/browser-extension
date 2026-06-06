@@ -47,10 +47,15 @@
   async function loadAdminBarPref() {
     try {
       const data = await chrome.storage.local.get('wp_preferences_v1');
-      const prefs = (data.wp_preferences_v1 || {})[location.origin];
-      // Default: shown. Hide only when the user has explicitly toggled
-      // it off for this origin.
-      return !!prefs && prefs.adminBarHidden === true;
+      const prefsRoot = data.wp_preferences_v1 || {};
+      const prefs = prefsRoot[location.origin];
+      const globalPrefs = prefsRoot._global || {};
+      // Per-origin choice wins; otherwise consult the global "hide by
+      // default" option set on the options page; otherwise default to shown.
+      if (prefs && typeof prefs.adminBarHidden === 'boolean') {
+        return prefs.adminBarHidden === true;
+      }
+      return globalPrefs.adminBarHidden === true;
     } catch (_) {
       return false;
     }

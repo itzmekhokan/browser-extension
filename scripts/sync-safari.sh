@@ -20,8 +20,8 @@ fi
 
 # Wipe sub-folders so deletes in source propagate; top-level files are
 # overwritten below so the DEST listing matches source exactly.
-rm -rf "$DEST/lib" "$DEST/popup" "$DEST/dist" "$DEST/icons"
-mkdir -p "$DEST/lib" "$DEST/popup" "$DEST/dist" "$DEST/icons"
+rm -rf "$DEST/lib" "$DEST/popup" "$DEST/options" "$DEST/dist" "$DEST/icons"
+mkdir -p "$DEST/lib" "$DEST/popup" "$DEST/options" "$DEST/dist" "$DEST/icons"
 
 cp "$ROOT/manifest.json" "$DEST/"
 cp "$ROOT/background.js" "$DEST/"
@@ -34,6 +34,10 @@ cp "$ROOT/lib/host.js"             "$DEST/lib/"
 cp "$ROOT/lib/block-inspector.js"  "$DEST/lib/"
 
 cp "$ROOT/popup/popup.html" "$DEST/popup/"
+
+cp "$ROOT/options/options.html" "$DEST/options/"
+cp "$ROOT/options/options.css"  "$DEST/options/"
+cp "$ROOT/options/options.js"   "$DEST/options/"
 
 cp "$ROOT/dist/popup.css" "$DEST/dist/"
 cp "$ROOT/dist/popup.js"  "$DEST/dist/"
