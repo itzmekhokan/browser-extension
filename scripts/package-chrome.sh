@@ -25,7 +25,7 @@ echo "Building popup bundle..."
 npm run build > /dev/null
 
 rm -rf "$STAGE"
-mkdir -p "$STAGE/lib" "$STAGE/popup" "$STAGE/dist" "$STAGE/icons"
+mkdir -p "$STAGE/lib" "$STAGE/popup" "$STAGE/options" "$STAGE/dist" "$STAGE/icons"
 
 cp manifest.json    "$STAGE/"
 cp background.js    "$STAGE/"
@@ -38,6 +38,10 @@ cp lib/host.js             "$STAGE/lib/"
 cp lib/block-inspector.js  "$STAGE/lib/"
 
 cp popup/popup.html "$STAGE/popup/"
+
+cp options/options.html "$STAGE/options/"
+cp options/options.css  "$STAGE/options/"
+cp options/options.js   "$STAGE/options/"
 
 cp dist/popup.css "$STAGE/dist/"
 cp dist/popup.js  "$STAGE/dist/"

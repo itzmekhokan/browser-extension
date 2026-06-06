@@ -24,6 +24,7 @@
 		23E1696C2FB90D4D00B58EF4 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 23E169652FB90D4D00B58EF4 /* manifest.json */; };
 		23E1696D2FB90D4D00B58EF4 /* lib in Resources */ = {isa = PBXBuildFile; fileRef = 23E169662FB90D4D00B58EF4 /* lib */; };
 		23E1696E2FB90D4D00B58EF4 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 23E169672FB90D4D00B58EF4 /* content.js */; };
+		23E16A022FB90D4D00B58EF4 /* options in Resources */ = {isa = PBXBuildFile; fileRef = 23E16A012FB90D4D00B58EF4 /* options */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		23E169652FB90D4D00B58EF4 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = Resources/manifest.json; sourceTree = "<group>"; };
 		23E169662FB90D4D00B58EF4 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = Resources/lib; sourceTree = "<group>"; };
 		23E169672FB90D4D00B58EF4 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = Resources/content.js; sourceTree = "<group>"; };
+		23E16A012FB90D4D00B58EF4 /* options */ = {isa = PBXFileReference; lastKnownFileType = folder; name = options; path = Resources/options; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				23E169652FB90D4D00B58EF4 /* manifest.json */,
 				23E169662FB90D4D00B58EF4 /* lib */,
 				23E169672FB90D4D00B58EF4 /* content.js */,
+				23E16A012FB90D4D00B58EF4 /* options */,
 			);
 			name = Resources;
 			path = "WordPress Browser Extension Extension";
@@ -264,6 +267,7 @@
 				23E169692FB90D4D00B58EF4 /* background.js in Resources */,
 				23E1696E2FB90D4D00B58EF4 /* content.js in Resources */,
 				23E169682FB90D4D00B58EF4 /* popup in Resources */,
+				23E16A022FB90D4D00B58EF4 /* options in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

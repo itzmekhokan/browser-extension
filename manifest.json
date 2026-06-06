@@ -18,6 +18,11 @@
     "default_popup": "popup/popup.html"
   },
 
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+
   "background": {
     "service_worker": "background.js"
   },
