@@ -222,7 +222,10 @@ function safeProfileUrl(editProfileUrl, origin) {
 	try {
 		const u = new URL(editProfileUrl);
 		if (u.origin !== origin) return fallback;
-		if (!/^\/wp-admin\//.test(u.pathname)) return fallback;
+		// Match the path by suffix rather than prefix so WordPress installs
+		// under a subdirectory (e.g. /wp/wp-admin/profile.php) aren't sent
+		// back to the broken /wp-admin/profile.php fallback.
+		if (!u.pathname.endsWith('/wp-admin/profile.php')) return fallback;
 		return u.href;
 	} catch (_) {
 		return fallback;
