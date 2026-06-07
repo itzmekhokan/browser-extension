@@ -25,7 +25,7 @@ A few extras follow naturally from sitting at the browser level instead of insid
 
 ## Status
 
-**v0.8.x — pre-1.0, in production use.** The v1.0 milestone is initial official directory releases on the **Chrome Web Store** and **Safari / Mac App Store** under the WordPress publisher account; Firefox and Edge follow post-1.0. See [`ROADMAP.md`](ROADMAP.md) for what's locked, what's open, and what's next.
+**v0.9.x — pre-1.0, in production use.** A dedicated v0.10.x phase will handle store-readiness work (permissions audit, bundle identifier, store listing assets, publisher account decisions) before the v1.0 milestone of initial official directory releases on the **Chrome Web Store** and **Safari / Mac App Store** under the WordPress publisher account. Firefox and Edge follow post-1.0. See [`ROADMAP.md`](ROADMAP.md) for what's locked, what's open, and what's next.
 
 ## Privacy
 
