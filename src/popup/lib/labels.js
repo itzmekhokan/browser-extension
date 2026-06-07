@@ -10,13 +10,29 @@ export function editLabel(ctx, editable) {
 		return 'Edit Term';
 	}
 	if (ctx.pageType === 'author') return 'Edit Author';
+	// Template-backed views (block themes) edit a site-editor template, not a
+	// post. Checked before `ctx.postType` so a post-type archive reads as a
+	// template edit rather than "Edit Book".
+	if (ctx.pageType === 'home') return 'Edit Blog Template';
+	if (ctx.pageType === 'archive') return 'Edit Archive Template';
 	if (ctx.postType) return `Edit ${postTypeLabel(ctx.postType)}`;
 	return 'Edit Page';
 }
 
-export function editDisabledLabel(ctx) {
-	if (ctx.pageType === 'archive') return 'Edit Archive (Coming Soon)';
-	if (ctx.pageType === 'home') return 'Edit Homepage (Coming Soon)';
+/**
+ * Label for the disabled edit row. `info.isBlockTheme` (when known) lets the
+ * template-backed cases be honest about *why* editing is unavailable rather
+ * than dangling a "Coming Soon" promise:
+ *   - false → classic theme; its templates are PHP, not site-editor content.
+ *   - true  → block theme, but no matching template was found.
+ *   - null  → couldn't determine (not an admin, REST disabled).
+ */
+export function editDisabledLabel(ctx, info = {}) {
+	if (ctx.pageType === 'archive' || ctx.pageType === 'home') {
+		if (info.isBlockTheme === false) return 'Editing Not Available (Classic Theme)';
+		if (info.isBlockTheme === true) return 'Template Not Found';
+		return 'Editing Not Available';
+	}
 	if (ctx.pageType === 'term') return 'Edit Term (Not Resolvable)';
 	if (ctx.pageType === 'author') return 'Edit Author (Not Resolvable)';
 	if (ctx.pageType === 'search' || ctx.pageType === '404') return 'Nothing to Edit';
