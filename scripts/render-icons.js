@@ -2,23 +2,19 @@
 /**
  * Renders the W-mark SVG variants to the PNG icon sets the manifest expects.
  *
- * Two sets are produced:
- *
  *   icons/src/wmark.svg          → icons/icon-{16,32,48,128}.png
  *   icons/src/wmark-active.svg   → icons/icon-{16,32}-active.png
  *   icons/src/wmark-inactive.svg → icons/icon-{16,32}-inactive.png
- *     Full-color (WP blue / dark gray circle, white W). Used by Chrome
- *     so the icon stays legible against any toolbar chrome.
  *
- *   icons/src/template/wmark.svg          → icons/template/icon-{16,32,48,128}.png
- *   icons/src/template/wmark-active.svg   → icons/template/icon-{16,32}-active.png
- *   icons/src/template/wmark-inactive.svg → icons/template/icon-{16,32}-inactive.png
- *     Silhouette (transparent background, single-color W mark). Used by
- *     Safari, which template-renders extension toolbar icons — i.e.
- *     ignores the icon's own colors and paints the alpha shape with the
- *     system tint. A silhouette is what Safari's tinting expects; the
- *     full-color version gets flattened to a single tint and loses the
- *     state distinction.
+ * One full-color set (WP-blue / dark-slate circle, white W) ships to both
+ * Chrome and Safari. Safari template-renders a toolbar icon ONLY when it
+ * reads as monochrome (a black/grayscale shape on transparency): it tints
+ * the alpha shape with the system color and drops the icon's own colors.
+ * An icon carrying genuine color is rendered as-is — this is the opt-out
+ * extensions like 1Password rely on. So every state uses a clearly
+ * saturated fill (note the dark states are slate `#2c3e50`, not a near-gray,
+ * which Safari could still flatten to a tinted blob). This keeps the three
+ * states distinct in Safari and gives both browsers one identical icon.
  *
  * Run with: node scripts/render-icons.js
  */
@@ -34,7 +30,7 @@ const jobs = [
 	{ svg: 'wmark-inactive.svg', sizes: [16, 32],          suffix: '-inactive' },
 ];
 
-async function renderSet({ srcDir, outDir, label }) {
+async function renderSet({ srcDir, outDir }) {
 	fs.mkdirSync(outDir, { recursive: true });
 	for (const { svg, sizes, suffix } of jobs) {
 		const buf = fs.readFileSync(path.join(srcDir, svg));
@@ -44,7 +40,7 @@ async function renderSet({ srcDir, outDir, label }) {
 				.resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
 				.png({ compressionLevel: 9 })
 				.toFile(out);
-			console.log(`  ${label} →`, path.relative(ROOT, out));
+			console.log('  →', path.relative(ROOT, out));
 		}
 	}
 }
@@ -53,11 +49,5 @@ async function renderSet({ srcDir, outDir, label }) {
 	await renderSet({
 		srcDir: path.join(ROOT, 'icons', 'src'),
 		outDir: path.join(ROOT, 'icons'),
-		label: 'color   ',
-	});
-	await renderSet({
-		srcDir: path.join(ROOT, 'icons', 'src', 'template'),
-		outDir: path.join(ROOT, 'icons', 'template'),
-		label: 'template',
 	});
 })();

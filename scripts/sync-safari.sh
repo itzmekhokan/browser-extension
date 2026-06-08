@@ -42,11 +42,10 @@ cp "$ROOT/options/options.js"   "$DEST/options/"
 cp "$ROOT/dist/popup.css" "$DEST/dist/"
 cp "$ROOT/dist/popup.js"  "$DEST/dist/"
 
-# Safari Web Extensions template-render toolbar icons — Safari ignores
-# the icon's own colors and paints the alpha shape with the system tint.
-# The colored icons in icons/*.png are designed for Chrome, where full
-# color is preserved; the silhouette versions in icons/template/*.png
-# are what Safari's tinting expects.
-cp "$ROOT/icons/template"/*.png "$DEST/icons/"
+# Same full-color icons as Chrome. Safari only template-tints a toolbar
+# icon it reads as monochrome; a clearly-colored icon (see render-icons.js)
+# renders as-is, keeping the three states distinct — so Safari and Chrome
+# ship the identical set.
+cp "$ROOT/icons"/*.png "$DEST/icons/"
 
 echo "Synced runtime files → $DEST"
