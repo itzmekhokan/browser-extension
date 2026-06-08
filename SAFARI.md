@@ -51,6 +51,23 @@ as a folder reference. Open the project in Xcode, drag the folder into
 the Resources group, and choose "Create folder references" so future
 files inside it sync automatically.
 
+## Toolbar icon
+
+Safari and Chrome ship the **same** full-color icon set (`icons/*.png`,
+rendered from `icons/src/*.svg` by `scripts/render-icons.js`). Safari
+template-tints a toolbar icon — paints its alpha shape with the system
+color and discards the icon's own colors — *only* when it reads the icon
+as monochrome (a black/grayscale shape on transparency). An icon that
+carries genuine color is rendered as-is. This is the opt-out extensions
+like 1Password rely on, and it keeps all three states distinct in Safari:
+WP-blue (logged in), dark slate (logged out), slate + slash (not WP).
+
+Because the check is unreliable for near-grayscale darks, the logged-out /
+not-WP fill is a clearly-saturated slate (`#2c3e50`), not a near-gray —
+a too-desaturated fill can still be flattened to a tinted blob. **Don't
+reintroduce a monochrome/silhouette icon set for Safari**; it re-collapses
+the logged-in and logged-out states to a single tinted W (see #15).
+
 ## Known issues
 
 ### Popup leaves a gap at the bottom after collapsing an accordion
